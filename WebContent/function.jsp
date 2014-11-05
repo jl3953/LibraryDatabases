@@ -33,9 +33,10 @@ String searchString = request.getParameter("searchString");
 		if(rset != null) {
 			out.print("<table>");
 			out.print("<th>Item ID</th><th>Title</th><th>ISBN</th><th>Genre</th>");
+			String itemid = "";
 			while(rset.next()) {
 				out.print("<tr>");
-				out.print("<td>" + rset.getString("itemid") + "</td>" +
+				out.print("<td>" + (itemid = rset.getString("itemid")) + "</td>" +
 				"<td>" + rset.getString("title") + "</td>" + 
 				"<td>" + rset.getString("isbn") + "</td>" +
 				"<td>" + rset.getString("genre") + "</td>");
@@ -49,5 +50,24 @@ String searchString = request.getParameter("searchString");
 			conn.close();
 			}
 %>	
+
+<form action="reserve.jsp">
+Item ID <input type="text" name="itemID">
+Card Number <input type="text" name="cardNumber">
+Preferred Pickup Location:
+<select name="location">
+  <option value="115th Street Library">115th Street Library</option>
+  <option value="125th Street Library">125th Street Library</option>
+  <option value="58th Street Library">58th Street Library</option>
+  <option value="67th Street Library">67th Street Library</option>
+  <option value="96th Street Library">96th Street Library</option>
+  <option value="Aguilar Library">Aguilar Library</option>
+  <option value="Andrew Heiskell Braille and Talking Book Library">Andrew Heiskell Braille and Talking Book Library</option>
+  <option value="Battery Park City Library">Battery Park City Library</option>
+  <option value="Bloomingdale Library">Bloomingdale Library</option>
+  <option value="Stephen A. Schwarzman">Stephen A. Schwarzman</option>
+</select>
+<button type="submit">Reserve Book</button>
+</form>
 </body>
 </html>
