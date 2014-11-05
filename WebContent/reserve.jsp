@@ -19,7 +19,6 @@ public String myDate() {
 }
 %>
 <%
-out.print("<p>start</p>");
 String itemID = request.getParameter("itemID");
 String cardNumber = request.getParameter("cardNumber");
 String location = request.getParameter("location");
@@ -33,15 +32,8 @@ try {
 	conn = ods.getConnection();
 	Statement stmt = conn.createStatement();
 	Statement stmt2 = conn.createStatement();
-	out.print("<p>hi</p>");
-	if (false){
-		out.print("<p>yo</p>");
-	} else{
-		out.print("<p>noyo</p>");
-	}
 	rset = stmt.executeQuery("select itemid from reserves where itemid="+itemID);
 	if (rset.next()){
-		out.print("<p>herp</p>");
 		ResultSet resultset = stmt.executeQuery("select numinqueue from reserves where itemid="+itemID);
 		int numinqueue = 0;
 		if (resultset.next())
@@ -55,7 +47,6 @@ try {
 		"'"+ numinqueue++ + "')");
 	}
 	else {
-		out.print("<p>merp</p>");
 		String date = myDate();
 		int count = stmt2.executeUpdate("insert into reserves (itemid, cardnumber, addtime, librarychosen, numinqueue) "+
 		"values('"+itemID+"'," +
@@ -64,6 +55,7 @@ try {
 		"'" + location + "',"+
 		"'1')");
 	}
+	out.print("<p> Reservation was successful! </p>");
 } 
 catch (SQLException e) {
 	out.print(e.getMessage());
@@ -72,10 +64,10 @@ catch (SQLException e) {
 		}
 	}
 
-out.print("<p>end</p>");
 //if not, add the book to the queue
 //select where cardnumber is in the reserves table
 //check constraints
 %>
+<p> Go back to <a href="oracle_sample.jsp">Home Page</a></p>
 </body>
 </html>

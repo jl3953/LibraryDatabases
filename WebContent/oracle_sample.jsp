@@ -32,11 +32,12 @@ catch (SQLException e) {
 <body>
 <div id="menu">
 <ul>
-<li class="first active"><a href="#" accesskey="1" title="">Home</a></li>
-<li><a href="LinkPage.jsp" accesskey="2" title="">Link Page</a></li>
-<li><a href="#" accesskey="3" title="">Photographs</a></li>
-<li><a href="#" accesskey="4" title="">Videos</a></li>
-<li><a href="contactUs.html" accesskey="5" title="">Contact Us</a></li>
+<li><a href="UserPage.jsp" accesskey="1" title="">Home</a></li>
+<li class="first active"><a href="#" accesskey="2" title="">Search Books</a></li>
+<li><a href="#" accesskey="3" title="">Search DVD/CD</a></li>
+<li><a href="#" accesskey="4" title="">Search Journals</a></li>
+<li><a href="#" accesskey="5" title="">Search Newspapers</a></li>
+<li><a href="#" accesskey="6" title="">Libraries</a></li>
 </ul>
 </div>
 <H2>Employee Table</H2>
