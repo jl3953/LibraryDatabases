@@ -40,7 +40,16 @@ catch (SQLException e) {
 </ul>
 </div>
 <H2>Employee Table</H2>
-<p> <a href="LinkPage.jsp">link page</a>
+<p> <a href="function.jsp">link page</a>
+<form action = "function.jsp">
+<select name="item">
+  <option value="title">Title</option>
+  <option value="isbn">ISBN</option>
+  <option value="deweydecimal">Dewey Decimal</option>
+  <option value="genre">Genre</option>
+</select>
+<input type="submit" value="Submit">
+</form>
 <TABLE>
 <tr>
 <td>AUTHORID</td><td>FIRSTNAME</td><td>LASTNAME</td>
