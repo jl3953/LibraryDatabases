@@ -16,12 +16,13 @@ String error_msg = "";
 </head>
 <body>
 <% String derp = request.getParameter("item");
+String searchString = request.getParameter("searchString");
 		try {
 			OracleDataSource ods = new OracleDataSource();
 			ods.setURL("jdbc:oracle:thin:jl3953/LeighanneAndJennifer@//w4111b.cs.columbia.edu:1521/ADB");
 			conn = ods.getConnection();
 			Statement stmt = conn.createStatement();
-			rset = stmt.executeQuery("select "+derp+" from books");
+			rset = stmt.executeQuery("select * from books where "+derp+" like '%"+searchString+"%'");
 		} 
 		catch (SQLException e) {
 			error_msg = e.getMessage();
@@ -30,11 +31,17 @@ String error_msg = "";
 				}
 			}
 		if(rset != null) {
+			out.print("<table>");
+			out.print("<th>Item ID</th><th>Title</th><th>ISBN</th><th>Genre</th>");
 			while(rset.next()) {
 				out.print("<tr>");
-				out.print("<td>" + rset.getString(derp) + "</td>");
+				out.print("<td>" + rset.getString("itemid") + "</td>" +
+				"<td>" + rset.getString("title") + "</td>" + 
+				"<td>" + rset.getString("isbn") + "</td>" +
+				"<td>" + rset.getString("genre") + "</td>");
 				out.print("</tr>");
 				}
+			out.print("</table>");
 			} else {
 				out.print(error_msg);
 				}

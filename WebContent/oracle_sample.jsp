@@ -42,6 +42,7 @@ catch (SQLException e) {
 <H2>Employee Table</H2>
 <p> <a href="function.jsp">link page</a>
 <form action = "function.jsp">
+<input type="text" name="searchString">
 <select name="item">
   <option value="title">Title</option>
   <option value="isbn">ISBN</option>
