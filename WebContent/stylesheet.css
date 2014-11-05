@@ -1,0 +1,49 @@
+#menu
+{
+        padding: 0px 0px 0px 0px;
+        height: 99px;
+}
+
+#menu ul
+{
+        margin: 0px;
+        padding: 0px;
+        background: #E2E0DE;
+        list-style: none;
+        line-height: normal;
+}
+
+#menu li
+{
+        float: left;
+        padding: 2em 2em 2em 2em;
+}
+
+#menu a
+{
+        display: block;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 400;
+        font-family: 'Archivo Narrow', sans-serif;
+        font-size: 1.10em;
+        color: #FF0000;
+}
+
+#menu a:hover
+{
+        text-decoration: underline;
+}
+
+#menu .active a
+{
+        color: #000000;
+}
+
+#menu .first
+{
+        background: #FFFFFF;
+        border-left: none;
+        box-shadow: none;
+        color: #088674;
+}
