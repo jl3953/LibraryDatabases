@@ -9,7 +9,8 @@ Connection conn = null;
 ResultSet borrows = null;
 ResultSet reserves = null;
 ResultSet latefee = null;
-ResultSet titleAuthor = null;
+ResultSet title = null;
+ResultSet author = null;
 String error_msg = "";
 %>
 
@@ -30,6 +31,12 @@ String error_msg = "";
 <li><a href="#" accesskey="6" title="">Libraries</a></li>
 </ul>
 </div>
+<br>
+<h1>Borrows</h1>
+<table>
+<tr>
+<th>Title</th><th>Type</th><th>Checkout Date</th><th>Return Date</th>
+</tr>
 <%
 String cardNumber = request.getParameter("cardNumber");
 try {
@@ -37,23 +44,110 @@ try {
 	ods.setURL("jdbc:oracle:thin:jl3953/LeighanneAndJennifer@//w4111b.cs.columbia.edu:1521/ADB");
 	conn = ods.getConnection();
 	Statement stmt = conn.createStatement();
-	borrows = stmt.executeQuery("select * from borrows where cardnumber="+cardNumber);
-	reserves = stmt.executeQuery("select * from reserves where cardnumber="+cardNumber);
+	Statement stmt2 = conn.createStatement();
+	borrows = stmt.executeQuery("select itemid, checkoutdate, returndate from borrows where cardnumber="+cardNumber);
+	
+	while(borrows.next()) {
+		String checkout = borrows.getString("checkoutdate");
+		String returndate = borrows.getString("returnDate");
+		int itemid = borrows.getInt("itemid");
+		String myTitle = "";
+		String type = "";
+		if (itemid < 300){
+			title = stmt2.executeQuery("select title from books where itemid="+itemid);
+			title.next();
+			myTitle = title.getString("title");
+			type = "Book";
+		}
+		else{
+			title = stmt2.executeQuery("select name from DVDCD where itemid="+itemid);
+			title.next();
+			myTitle = title.getString("name");
+			type = "Dvd/Cd";
+		}
+		out.print("<tr>");
+		out.print("<td>" + myTitle + "</td>");
+		out.print("<td>" + type + "</td>");
+		out.print("<td>" + checkout.substring(0,10) + "</td>");
+		out.print("<td>" + returndate.substring(0,10) + "</td>");
+		out.print("</tr>");
+	}
+	out.print("</Table>");
+	reserves = stmt.executeQuery("select itemid, librarychosen, numinqueue from reserves where cardnumber="+cardNumber);
+	out.print("<h1> Reserves </h1>");
+	out.print("<Table>");
+	out.print("<tr>" + 
+	"<th>Title</th><th>Type</th><th>Pickup</th><th>Place in Line</th>" +
+	"</tr>");
+	while(reserves.next()) {
+		String libraryChosen = reserves.getString("librarychosen");
+		String numinqueue = reserves.getString("numinqueue");
+		int itemid = reserves.getInt("itemid");
+		String myTitle = "";
+		String type = "";
+		if (itemid < 300){
+			title = stmt2.executeQuery("select title from books where itemid="+itemid);
+			title.next();
+			myTitle = title.getString("title");
+			type = "Book";
+		}
+		else{
+			title = stmt2.executeQuery("select name from DVDCD where itemid="+itemid);
+			title.next();
+			myTitle = title.getString("name");
+			type = "Dvd/Cd";
+		}
+		out.print("<tr>");
+		out.print("<td>" + myTitle + "</td>");
+		out.print("<td>" + type + "</td>");
+		out.print("<td>" + libraryChosen + "</td>");
+		out.print("<td>" + numinqueue + "</td>");
+		out.print("</tr>");
+	}
+	out.print("</Table>");
 	latefee = stmt.executeQuery("select * from returns where cardNumber="+cardNumber);
+	out.print("<h1>Late Fees </h1>");
+	out.print("<Table>");
+	out.print("<tr>" + 
+	"<th>Title</th><th>Type</th><th>Return Date</th><th>Late Date</th><th>Fee</th>" +
+	"</tr>");
+	while(latefee.next()) {
+		String returndate = latefee.getString("assigneddate");
+		String latedate = latefee.getString("actualdate");
+		int fee = latefee.getInt("latefee");
+		int itemid = latefee.getInt("itemid");
+		String myTitle = "";
+		String type = "";
+		if (itemid < 300){
+			title = stmt2.executeQuery("select title from books where itemid="+itemid);
+			title.next();
+			myTitle = title.getString("title");
+			type = "Book";
+		}
+		else{
+			title = stmt2.executeQuery("select name from DVDCD where itemid="+itemid);
+			title.next();
+			myTitle = title.getString("name");
+			type = "Dvd/Cd";
+		}
+		out.print("<tr>");
+		out.print("<td>" + myTitle + "</td>");
+		out.print("<td>" + type + "</td>");
+		out.print("<td>" + returndate.substring(0,10) + "</td>");
+		out.print("<td>" + latedate.substring(0,10) + "</td>");
+		out.print("<td>" + fee + "</td>");
+		out.print("</tr>");
+	}
+	out.print("</Table>");
 } 
 catch (SQLException e) {
-	error_msg = e.getMessage();
+	out.print(e.getMessage());
 	if( conn != null ) {
 		conn.close();
 		}
 	}
 %>
-<br>
-<h1>BORROWED</h1>
-<table>
-<tr>
-<th>Title</th><th>Author</th><th>Checkout Date</th><th>Return Date</th>
-</tr>
+
 
 </table>
 </body>
